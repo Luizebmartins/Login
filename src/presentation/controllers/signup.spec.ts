@@ -43,4 +43,12 @@ describe('SignUp controller', () => {
         const validation = sut.validateEmail(email)
         expect(validation).toBe(false)
     })
+
+    test('should return true if no valid email is provided', () => {
+        const sut = new StringValidator()
+        const email = "email@gmail.com.br"
+
+        const validation = sut.validateEmail(email)
+        expect(validation).toBe(true)
+    })
 })
