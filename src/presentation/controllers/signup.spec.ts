@@ -3,7 +3,6 @@ import { MissingParamError } from '../errors/missing-param-error'
 import { StringValidator } from '../helpers/string-validation-helper'
 
 
-
 describe('SignUp controller', () => {
     test('should return 400 if no name is provided', () => {
         const sut = new SignUpController()
@@ -35,20 +34,4 @@ describe('SignUp controller', () => {
         expect(httpResponse.statusCode).toBe(400)
         expect(httpResponse.body).toEqual(new MissingParamError('email'))
     }) 
-    
-    test('should return false if no valid email is provided', () => {
-        const sut = new StringValidator()
-        const email = "email"
-
-        const validation = sut.validateEmail(email)
-        expect(validation).toBe(false)
-    })
-
-    test('should return true if no valid email is provided', () => {
-        const sut = new StringValidator()
-        const email = "email@gmail.com.br"
-
-        const validation = sut.validateEmail(email)
-        expect(validation).toBe(true)
-    })
 })
