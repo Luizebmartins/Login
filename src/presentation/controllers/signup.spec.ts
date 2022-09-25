@@ -1,7 +1,6 @@
 import { SignUpController } from './signup'
 import { MissingParamError } from '../errors/missing-param-error'
-import { StringValidator } from '../helpers/string-validation-helper'
-
+import { InvalidParamError } from '../errors/invalid-param-error'
 
 describe('SignUp controller', () => {
     test('should return 400 if no name is provided', () => {
@@ -49,6 +48,6 @@ describe('SignUp controller', () => {
 
         const httpResponse = sut.handle(httpRequest)
         expect(httpResponse.statusCode).toBe(400)
-        expect(httpResponse.body).toEqual(new Error('invalid param: email'))
+        expect(httpResponse.body).toEqual(new InvalidParamError('email'))
     }) 
 })
