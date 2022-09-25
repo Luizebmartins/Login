@@ -17,7 +17,7 @@ export class SignUpController {
         if(!stringValidator.validateEmail(httpRequest.body.email)) {
             return {
                 statusCode: 400,
-                body: {}
+                body: new Error('invalid param: email')
             }
         }
 
