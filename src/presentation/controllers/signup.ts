@@ -7,7 +7,7 @@ import { InvalidParamError } from '../errors/invalid-param-error'
 const stringValidator = new StringValidator()
 export class SignUpController {
     handle(httpRequest: HttpRequest): HttpResponse {
-        const requiredFields = ['name', 'email', 'password']
+        const requiredFields = ['name', 'email', 'password', 'confirmPassword']
 
         for(const field of requiredFields) {
             if(!httpRequest.body[field]) {
