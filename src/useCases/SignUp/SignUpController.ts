@@ -1,8 +1,8 @@
-import { HttpRequest, HttpResponse } from '../protocols/http'
-import { MissingParamError } from '../errors/missing-param-error'
-import { badRequest } from '../helpers/http-helper'
-import { StringValidator } from '../helpers/string-validation-helper'
-import { InvalidParamError } from '../errors/invalid-param-error'
+import { HttpRequest, HttpResponse } from '../utils/protocols/http'
+import { MissingParamError } from '../utils/errors/missing-param-error'
+import { badRequest } from '../utils/helpers/http-helper'
+import { StringValidator } from '../utils/helpers/string-validation-helper'
+import { InvalidParamError } from '../utils/errors/invalid-param-error'
 
 const stringValidator = new StringValidator()
 export class SignUpController {
