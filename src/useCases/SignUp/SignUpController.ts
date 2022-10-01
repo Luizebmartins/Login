@@ -4,8 +4,12 @@ import { badRequest } from '../utils/helpers/http-helper'
 import { StringValidator } from '../utils/helpers/string-validation-helper'
 import { InvalidParamError } from '../utils/errors/invalid-param-error'
 
-const stringValidator = new StringValidator()
 export class SignUpController {
+    
+    constructor(
+        private stringValidator: StringValidator
+    ) {}
+    
     handle(httpRequest: HttpRequest): HttpResponse {
         const requiredFields = ['name', 'email', 'password', 'confirmPassword']
 
@@ -15,7 +19,7 @@ export class SignUpController {
             }
         }
 
-        if(!stringValidator.validateEmail(httpRequest.body.email)) {
+        if(!this.stringValidator.validateEmail(httpRequest.body.email)) {
             return  badRequest(new InvalidParamError('email'))
         }
 
