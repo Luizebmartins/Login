@@ -6,9 +6,14 @@ import { StringValidator } from '../utils/helpers/string-validation-helper'
 
 const emailValidator = new StringValidator
 
+
+const makeSut = (): SignUpController => {
+    return new SignUpController(emailValidator)
+}
+
 describe('SignUp controller', () => {
     test('should return 400 if no name is provided', () => {
-        const sut = new SignUpController(emailValidator)
+        const sut = makeSut()
         const httpRequest = {
             body: {
                 email: 'email@email.com',
@@ -25,7 +30,7 @@ describe('SignUp controller', () => {
     
     
     test('should return 400 if no email is provided', () => {
-        const sut = new SignUpController(emailValidator)
+        const sut = makeSut()
         const httpRequest = {
             body: {
                 name: 'anyName',
@@ -42,7 +47,7 @@ describe('SignUp controller', () => {
 
 
     test('should return 400 if no valid email is provided', () => {
-        const sut = new SignUpController(emailValidator)
+        const sut = makeSut()
         const httpRequest = {
             body: {
                 name: 'anyName',
@@ -59,7 +64,7 @@ describe('SignUp controller', () => {
     }) 
 
     test('should return 400 if no password is provided', () => {
-        const sut = new SignUpController(emailValidator)
+        const sut = makeSut()
         const httpRequest = {
             body: {
                 name: 'anyName',
@@ -75,7 +80,7 @@ describe('SignUp controller', () => {
     }) 
 
     test('should return 400 if no confirmPassword is provided', () => {
-        const sut = new SignUpController(emailValidator)
+        const sut = makeSut()
         const httpRequest = {
             body: {
                 name: 'anyName',
@@ -91,7 +96,7 @@ describe('SignUp controller', () => {
     }) 
 
     test('should return 400 if no phone is provided', () => {
-        const sut = new SignUpController(emailValidator)
+        const sut = makeSut()
         const httpRequest = {
             body: {
                 name: 'anyName',
@@ -109,7 +114,7 @@ describe('SignUp controller', () => {
 
 
     test('should return 400 if password and confirmation password do not match', () => {
-        const sut = new SignUpController(emailValidator)
+        const sut = makeSut()
         const httpRequest = {
             body: {
                 name: 'anyName',
