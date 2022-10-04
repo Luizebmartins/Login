@@ -106,4 +106,19 @@ describe('SignUp controller', () => {
         expect(httpResponse.body).toEqual(new MissingParamError('phone'))
     }) 
 
+    test('should return 400 if confirmPassword is different from password', () => {
+        const sut = new SignUpController(emailValidator)
+        const httpRequest = {
+            body: {
+                name: 'anyName',
+                email: 'email@teste.com',
+                password: 'any',
+                confirmPassword: 'anypassword',
+                phone: "35997464533"
+            }
+        }
+
+        const httpResponse = sut.handle(httpRequest)
+        expect(httpResponse.statusCode).toBe(400)
+    }) 
 })
