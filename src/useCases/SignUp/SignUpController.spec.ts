@@ -3,17 +3,35 @@ import { MissingParamError } from '../utils/errors/missing-param-error'
 import { InvalidParamError } from '../utils/errors/invalid-param-error'
 import { notMatchParamError } from '../utils/errors/not-match-param-error'
 import { StringValidator } from '../utils/helpers/string-validation-helper'
+import { SignUpUseCase } from './SignUpUseCase'
 
-const emailValidator = new StringValidator
+interface SutTypes {
+    sut: SignUpController,
+    signUpUseCaseStub: SignUpUseCase
+}
+
+const makeSut = (): SutTypes => {
+    class SignUpUseCaseStub implements SignUpUseCase{
+        execute() {
+            return true
+        }
+    }
+
+    const emailValidator = new StringValidator
+    const signUpUseCaseStub = new SignUpUseCaseStub
+    const sut = new SignUpController(emailValidator, signUpUseCaseStub)
 
 
-const makeSut = (): SignUpController => {
-    return new SignUpController(emailValidator)
+    return {
+        sut,
+        signUpUseCaseStub
+    }
+
 }
 
 describe('SignUp controller', () => {
     test('should return 400 if no name is provided', () => {
-        const sut = makeSut()
+        const {sut} = makeSut()
         const httpRequest = {
             body: {
                 email: 'email@email.com',
@@ -28,9 +46,8 @@ describe('SignUp controller', () => {
         expect(httpResponse.body).toEqual(new MissingParamError('name'))
     })
     
-    
     test('should return 400 if no email is provided', () => {
-        const sut = makeSut()
+        const {sut} = makeSut()
         const httpRequest = {
             body: {
                 name: 'anyName',
@@ -45,9 +62,8 @@ describe('SignUp controller', () => {
         expect(httpResponse.body).toEqual(new MissingParamError('email'))
     }) 
 
-
     test('should return 400 if no valid email is provided', () => {
-        const sut = makeSut()
+        const {sut} = makeSut()
         const httpRequest = {
             body: {
                 name: 'anyName',
@@ -64,7 +80,7 @@ describe('SignUp controller', () => {
     }) 
 
     test('should return 400 if no password is provided', () => {
-        const sut = makeSut()
+        const {sut} = makeSut()
         const httpRequest = {
             body: {
                 name: 'anyName',
@@ -80,7 +96,7 @@ describe('SignUp controller', () => {
     }) 
 
     test('should return 400 if no confirmPassword is provided', () => {
-        const sut = makeSut()
+        const {sut} = makeSut()
         const httpRequest = {
             body: {
                 name: 'anyName',
@@ -96,7 +112,7 @@ describe('SignUp controller', () => {
     }) 
 
     test('should return 400 if no phone is provided', () => {
-        const sut = makeSut()
+        const {sut} = makeSut()
         const httpRequest = {
             body: {
                 name: 'anyName',
@@ -112,9 +128,8 @@ describe('SignUp controller', () => {
         expect(httpResponse.body).toEqual(new MissingParamError('phone'))
     }) 
 
-
     test('should return 400 if password and confirmation password do not match', () => {
-        const sut = makeSut()
+        const {sut} = makeSut()
         const httpRequest = {
             body: {
                 name: 'anyName',
@@ -129,4 +144,26 @@ describe('SignUp controller', () => {
         expect(httpResponse.statusCode).toBe(400)
         expect(httpResponse.body).toEqual(new notMatchParamError('password', 'confirmPassword'))
     }) 
+
+    test('should return 500 if SignUpUseCase generate an error', () => {
+        const {sut, signUpUseCaseStub} = makeSut()
+        jest.spyOn(signUpUseCaseStub, 'execute').mockImplementation(() => {
+            throw new Error()
+        })
+
+        const httpRequest = {
+            body: {
+                name: 'anyName',
+                email: 'email@teste.com',
+                password: 'any',
+                confirmPassword: 'any',
+                phone: "35997464533"
+            }
+        }
+
+        const httpResponse = sut.handle(httpRequest)
+        expect(httpResponse.statusCode).toBe(500)
+
+    })
+
 })
