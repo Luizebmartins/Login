@@ -1,6 +1,7 @@
 import { SignUpController } from './SignUpController'
 import { MissingParamError } from '../utils/errors/missing-param-error'
 import { InvalidParamError } from '../utils/errors/invalid-param-error'
+import { notMatchParamError } from '../utils/errors/not-match-param-error'
 import { StringValidator } from '../utils/helpers/string-validation-helper'
 
 const emailValidator = new StringValidator
@@ -106,7 +107,8 @@ describe('SignUp controller', () => {
         expect(httpResponse.body).toEqual(new MissingParamError('phone'))
     }) 
 
-    test('should return 400 if confirmPassword is different from password', () => {
+
+    test('should return 400 if password and confirmation password do not match', () => {
         const sut = new SignUpController(emailValidator)
         const httpRequest = {
             body: {
@@ -120,5 +122,6 @@ describe('SignUp controller', () => {
 
         const httpResponse = sut.handle(httpRequest)
         expect(httpResponse.statusCode).toBe(400)
+        expect(httpResponse.body).toEqual(new notMatchParamError('password', 'confirmPassword'))
     }) 
 })
