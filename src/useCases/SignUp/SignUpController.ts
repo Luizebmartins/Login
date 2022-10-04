@@ -3,6 +3,7 @@ import { MissingParamError } from '../utils/errors/missing-param-error'
 import { badRequest } from '../utils/helpers/http-helper'
 import { StringValidator } from '../utils/helpers/string-validation-helper'
 import { InvalidParamError } from '../utils/errors/invalid-param-error'
+import { notMatchParamError } from '../utils/errors/not-match-param-error'
 
 export class SignUpController {
     
@@ -25,10 +26,7 @@ export class SignUpController {
 
 
         if(httpRequest.body.password !== httpRequest.body.confirmPassword) {
-            return {
-                statusCode: 400,
-                body: {}
-            }
+            return badRequest(new notMatchParamError('password', 'confirmPassword'))
         }
         return {
             statusCode: 200,
