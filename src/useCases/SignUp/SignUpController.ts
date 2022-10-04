@@ -1,14 +1,16 @@
 import { HttpRequest, HttpResponse } from '../utils/protocols/http'
 import { MissingParamError } from '../utils/errors/missing-param-error'
 import { badRequest } from '../utils/helpers/http-helper'
+import { InternalServerError } from '../utils/helpers/http-helper'
 import { StringValidator } from '../utils/helpers/string-validation-helper'
 import { InvalidParamError } from '../utils/errors/invalid-param-error'
 import { notMatchParamError } from '../utils/errors/not-match-param-error'
-
+import { SignUpUseCase } from './SignUpUseCase'
 export class SignUpController {
     
     constructor(
-        private stringValidator: StringValidator
+        private stringValidator: StringValidator,
+        private signUpUseCase: SignUpUseCase
     ) {}
     
     handle(httpRequest: HttpRequest): HttpResponse {
@@ -28,9 +30,17 @@ export class SignUpController {
         if(httpRequest.body.password !== httpRequest.body.confirmPassword) {
             return badRequest(new notMatchParamError('password', 'confirmPassword'))
         }
-        return {
-            statusCode: 200,
-            body: {}
+
+        try {
+            const newUser = this.signUpUseCase.execute(httpRequest.body)
+
+            return {
+                statusCode: 200,
+                body: {}
+            }
+        } catch (error: any) {
+            return InternalServerError(new Error(error.message))
         }
+    
     }
 }
