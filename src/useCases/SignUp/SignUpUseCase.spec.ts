@@ -2,9 +2,14 @@
 import { SignUpUseCase } from './SignUpUseCase'
 
 
+const makeSut = (): SignUpUseCase => {
+    return new SignUpUseCase() 
+}
+
+
 describe('Sign Up Use Case', () => {
     test('should return an error if user already exist', () => {
-        const sut = new SignUpUseCase()
+        const sut = makeSut()
         const userData = {
             name: 'anyName',
             confirmPassword: 'any',
