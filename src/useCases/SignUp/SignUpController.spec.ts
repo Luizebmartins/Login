@@ -10,17 +10,19 @@ interface SutTypes {
     signUpUseCaseStub: SignUpUseCase
 }
 
-const makeSut = (): SutTypes => {
+const makeSignUpUseCaseStub = (): SignUpUseCase => {
     class SignUpUseCaseStub implements SignUpUseCase{
         execute() {
             return true
         }
     }
+    return new SignUpUseCaseStub
+}
 
+const makeSut = (): SutTypes => {
     const emailValidator = new StringValidator
-    const signUpUseCaseStub = new SignUpUseCaseStub
+    const signUpUseCaseStub = makeSignUpUseCaseStub()
     const sut = new SignUpController(emailValidator, signUpUseCaseStub)
-
 
     return {
         sut,
