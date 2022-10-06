@@ -37,8 +37,8 @@ describe('Sign Up Use Case', () => {
         })
         const userData = {
             name: 'anyName',
-            confirmPassword: 'any',
-            phone: "35997464533"
+            email: 'any@gmail',
+            password: "any"
         }
 
         expect(()=> {sut.execute(userData)}).toThrow(Error)
