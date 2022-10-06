@@ -119,23 +119,6 @@ describe('SignUp controller', () => {
         expect(httpResponse.body).toEqual(new MissingParamError('confirmPassword'))
     }) 
 
-    test('should return 400 if no phone is provided', () => {
-        const {sut} = makeSut()
-        const httpRequest = {
-            body: {
-                name: 'anyName',
-                email: 'email@teste.com',
-                password: 'any',
-                confirmPassword: 'any',
-            
-            }
-        }
-
-        const httpResponse = sut.handle(httpRequest)
-        expect(httpResponse.statusCode).toBe(400)
-        expect(httpResponse.body).toEqual(new MissingParamError('phone'))
-    }) 
-
     test('should return 400 if password and confirmation password do not match', () => {
         const {sut} = makeSut()
         const httpRequest = {
