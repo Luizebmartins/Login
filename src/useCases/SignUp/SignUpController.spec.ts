@@ -4,19 +4,25 @@ import { InvalidParamError } from '../utils/errors/invalid-param-error'
 import { notMatchParamError } from '../utils/errors/not-match-param-error'
 import { StringValidator } from '../utils/helpers/string-validation-helper'
 import { SignUpUseCase } from './SignUpUseCase'
+import { IUsersRepository } from '../../repositories/IUsersRepository'
 
 interface SutTypes {
     sut: SignUpController,
     signUpUseCaseStub: SignUpUseCase
 }
 
-const makeSignUpUseCaseStub = (): SignUpUseCase => {
-    class SignUpUseCaseStub implements SignUpUseCase{
-        execute() {
+const makeUserRepositoryStub = () => {
+    class UserRepositoryStub implements IUsersRepository {
+        get(user: any) {
             return true
         }
     }
-    return new SignUpUseCaseStub
+    return new UserRepositoryStub
+}
+
+
+const makeSignUpUseCaseStub = (): SignUpUseCase => {
+    return new SignUpUseCase(makeUserRepositoryStub())
 }
 
 const makeSut = (): SutTypes => {
