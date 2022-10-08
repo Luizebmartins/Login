@@ -7,6 +7,8 @@ import { StringValidator } from '../utils/helpers/string-validation-helper'
 import { InvalidParamError } from '../utils/errors/invalid-param-error'
 import { notMatchParamError } from '../utils/errors/not-match-param-error'
 import { SignUpUseCase } from './SignUpUseCase'
+import { User } from '../../entities/User'
+
 export class SignUpController {
     
     constructor(
@@ -33,9 +35,9 @@ export class SignUpController {
         }
 
         try {
-            const newUser = this.signUpUseCase.execute(httpRequest.body)
+            const reponse = this.signUpUseCase.execute(httpRequest.body)
 
-            return Created(newUser)
+            return Created(reponse)
         } catch (error: any) {
             return InternalServerError(new Error(error.message))
         }
