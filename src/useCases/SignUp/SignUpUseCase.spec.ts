@@ -1,7 +1,7 @@
 
 import { SignUpUseCase } from './SignUpUseCase'
 import { IUsersRepository } from '../../repositories/IUsersRepository'
-
+import { User } from '../../entities/User'
 
 interface SutTypes {
     sut: SignUpUseCase,
@@ -12,6 +12,10 @@ const makeUserRepositoryStub = () => {
     class UserRepositoryStub implements IUsersRepository {
         get(user: any) {
             return false
+        }
+
+        save(user: User) {
+            return true
         }
     }
     return new UserRepositoryStub
@@ -30,7 +34,7 @@ const makeSut = (): SutTypes => {
 
 
 describe('Sign Up Use Case', () => {
-    test('should return an error if user already exist', () => {
+    test('should return an error if user already exist', async () => {
         const {sut, userRepositoryStub} = makeSut()
         jest.spyOn(userRepositoryStub, "get").mockImplementation(() => {
             return true
@@ -41,9 +45,27 @@ describe('Sign Up Use Case', () => {
             password: "any"
         }
 
-        expect(()=> {sut.execute(userData)}).toThrow(Error)
-        expect(()=> {sut.execute(userData)}).toThrow('User already exist')
+        try {
+            await sut.execute(userData)
+        } catch (error: any) {
+            expect(error.message).toBe("User already exist")
 
+        }
+    })
+
+    test('should return a success message if the user is created', async () => {
+        const {sut, userRepositoryStub} = makeSut()
+        jest.spyOn(userRepositoryStub, "save").mockImplementation(()=> {
+            return true
+        })
+        const userData = {
+            name: 'anyName',
+            email: 'any@gmail',
+            password: "any"
+        }
+
+        const response = await sut.execute(userData)
+        expect(response.message).toBe("User created successfully!")
     })
 
 })

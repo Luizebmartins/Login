@@ -16,6 +16,9 @@ const makeUserRepositoryStub = () => {
         get(user: any) {
             return true
         }
+        save(user: any) {
+            return true
+        }
     }
     return new UserRepositoryStub
 }
