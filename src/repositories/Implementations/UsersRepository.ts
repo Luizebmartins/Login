@@ -7,10 +7,10 @@ export class UsersRepository implements IUsersRepository {
         private dbaUser: IUsersDbaMethods
     ){}
     
-    get(email: string):any {
+    get(email: string):Promise<any> {
         return this.dbaUser.get(email)
     }
-    save(user: User) {
-        
+    save(user: User):Promise<boolean> {
+        return this.dbaUser.save(user)
     }
 }

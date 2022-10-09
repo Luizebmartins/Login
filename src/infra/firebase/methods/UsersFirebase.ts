@@ -17,7 +17,13 @@ export class UsersFirebase implements IUsersDbaMethods {
         return new User(userData)
     }
 
-    save(user: User):any {
-
+     async save(user: User):Promise<boolean> {
+         try {
+            await this.usersRef.add({...user})
+            return true 
+        } catch (error) {
+            console.log(error)
+            return false
+        }
     }
 }
