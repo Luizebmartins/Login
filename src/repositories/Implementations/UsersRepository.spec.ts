@@ -19,4 +19,17 @@ describe("Users Repository", () => {
         const user = await sut.get(email)
         expect(user).toBeInstanceOf(User)
     })
+
+    test("ensure successful user creation", async () => {
+        const sut = makeSut()
+        const userData = {
+            name: 'anyName',
+            email: 'email@teste.com',
+            password: 'any',
+            phone: ["35997464533"]
+        }
+        const user = new User(userData)
+        const userCreated = await sut.save(user)
+        expect(userCreated).toBe(true)
+    })
 })
