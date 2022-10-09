@@ -41,7 +41,7 @@ const makeSut = (): SutTypes => {
 }
 
 describe('SignUp controller', () => {
-    test('should return 400 if no name is provided', () => {
+    test('should return 400 if no name is provided', async () => {
         const {sut} = makeSut()
         const httpRequest = {
             body: {
@@ -52,12 +52,12 @@ describe('SignUp controller', () => {
             }
         }
 
-        const httpResponse = sut.handle(httpRequest)
+        const httpResponse = await sut.handle(httpRequest)
         expect(httpResponse.statusCode).toBe(400)
         expect(httpResponse.body).toEqual(new MissingParamError('name'))
     })
     
-    test('should return 400 if no email is provided', () => {
+    test('should return 400 if no email is provided', async () => {
         const {sut} = makeSut()
         const httpRequest = {
             body: {
@@ -68,12 +68,12 @@ describe('SignUp controller', () => {
             }
         }
 
-        const httpResponse = sut.handle(httpRequest)
+        const httpResponse = await sut.handle(httpRequest)
         expect(httpResponse.statusCode).toBe(400)
         expect(httpResponse.body).toEqual(new MissingParamError('email'))
     }) 
 
-    test('should return 400 if no valid email is provided', () => {
+    test('should return 400 if no valid email is provided',async () => {
         const {sut} = makeSut()
         const httpRequest = {
             body: {
@@ -85,12 +85,12 @@ describe('SignUp controller', () => {
             }
         }
 
-        const httpResponse = sut.handle(httpRequest)
+        const httpResponse = await sut.handle(httpRequest)
         expect(httpResponse.statusCode).toBe(400)
         expect(httpResponse.body).toEqual(new InvalidParamError('email'))
     }) 
 
-    test('should return 400 if no password is provided', () => {
+    test('should return 400 if no password is provided', async () => {
         const {sut} = makeSut()
         const httpRequest = {
             body: {
@@ -101,12 +101,12 @@ describe('SignUp controller', () => {
             }
         }
 
-        const httpResponse = sut.handle(httpRequest)
+        const httpResponse = await sut.handle(httpRequest)
         expect(httpResponse.statusCode).toBe(400)
         expect(httpResponse.body).toEqual(new MissingParamError('password'))
     }) 
 
-    test('should return 400 if no confirmPassword is provided', () => {
+    test('should return 400 if no confirmPassword is provided', async () => {
         const {sut} = makeSut()
         const httpRequest = {
             body: {
@@ -117,12 +117,12 @@ describe('SignUp controller', () => {
             }
         }
 
-        const httpResponse = sut.handle(httpRequest)
+        const httpResponse = await sut.handle(httpRequest)
         expect(httpResponse.statusCode).toBe(400)
         expect(httpResponse.body).toEqual(new MissingParamError('confirmPassword'))
     }) 
 
-    test('should return 400 if password and confirmation password do not match', () => {
+    test('should return 400 if password and confirmation password do not match', async () => {
         const {sut} = makeSut()
         const httpRequest = {
             body: {
@@ -134,12 +134,12 @@ describe('SignUp controller', () => {
             }
         }
 
-        const httpResponse = sut.handle(httpRequest)
+        const httpResponse = await sut.handle(httpRequest)
         expect(httpResponse.statusCode).toBe(400)
         expect(httpResponse.body).toEqual(new notMatchParamError('password', 'confirmPassword'))
     }) 
 
-    test('should return 500 if SignUpUseCase generate an error', () => {
+    test('should return 500 if SignUpUseCase generate an error', async () => {
         const {sut, signUpUseCaseStub} = makeSut()
         jest.spyOn(signUpUseCaseStub, 'execute').mockImplementation(() => {
             throw new Error()
@@ -155,7 +155,7 @@ describe('SignUp controller', () => {
             }
         }
 
-        const httpResponse = sut.handle(httpRequest)
+        const httpResponse = await sut.handle(httpRequest)
         expect(httpResponse.statusCode).toBe(500)
 
     })

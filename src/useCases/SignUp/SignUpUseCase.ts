@@ -7,7 +7,7 @@ export class SignUpUseCase {
     ) {}
 
     async execute(data: ICreateUserRequestDTO): Promise<any> {
-        const userAlreadyExists = this.usersRepository.get(data.email)
+        const userAlreadyExists = await this.usersRepository.get(data.email)
         if(userAlreadyExists) throw new Error('User already exist')
 
         const user = new User(data)

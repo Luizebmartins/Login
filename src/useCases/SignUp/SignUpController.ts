@@ -7,7 +7,6 @@ import { StringValidator } from '../utils/helpers/string-validation-helper'
 import { InvalidParamError } from '../utils/errors/invalid-param-error'
 import { notMatchParamError } from '../utils/errors/not-match-param-error'
 import { SignUpUseCase } from './SignUpUseCase'
-import { User } from '../../entities/User'
 
 export class SignUpController {
     
@@ -16,7 +15,7 @@ export class SignUpController {
         private signUpUseCase: SignUpUseCase
     ) {}
     
-    handle(httpRequest: HttpRequest): HttpResponse {
+    async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
         const requiredFields = ['name', 'email', 'password', 'confirmPassword']
 
         for(const field of requiredFields) {
@@ -33,9 +32,8 @@ export class SignUpController {
         if(httpRequest.body.password !== httpRequest.body.confirmPassword) {
             return badRequest(new notMatchParamError('password', 'confirmPassword'))
         }
-
         try {
-            const reponse = this.signUpUseCase.execute(httpRequest.body)
+            const reponse = await this.signUpUseCase.execute(httpRequest.body)
 
             return Created(reponse)
         } catch (error: any) {
