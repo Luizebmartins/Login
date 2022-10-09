@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "node dist/app.js"
   },
   "author": "Luiz Martins",
   "license": "ISC",
