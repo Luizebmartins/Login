@@ -1,4 +1,4 @@
-import { StringValidator } from './string-validation-helper'
+import { StringValidator } from '@/useCases/utils/helpers/string-validation-helper'
 
 describe('StringValidator', () => {
     test('should return false if no valid email is provided', () => {

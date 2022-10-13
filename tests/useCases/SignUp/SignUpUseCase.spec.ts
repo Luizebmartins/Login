@@ -1,7 +1,7 @@
 
-import { SignUpUseCase } from './SignUpUseCase'
-import { IUsersRepository } from '../../repositories/IUsersRepository'
-import { User } from '../../entities/User'
+import { SignUpUseCase } from '@/useCases/SignUp/SignUpUseCase'
+import { IUsersRepository } from '@/repositories/IUsersRepository'
+import { User } from '@/entities/User'
 
 interface SutTypes {
     sut: SignUpUseCase,

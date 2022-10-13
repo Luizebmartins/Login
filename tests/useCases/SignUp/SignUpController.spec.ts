@@ -1,10 +1,10 @@
-import { SignUpController } from './SignUpController'
-import { MissingParamError } from '../utils/errors/missing-param-error'
-import { InvalidParamError } from '../utils/errors/invalid-param-error'
-import { notMatchParamError } from '../utils/errors/not-match-param-error'
-import { StringValidator } from '../utils/helpers/string-validation-helper'
-import { SignUpUseCase } from './SignUpUseCase'
-import { IUsersRepository } from '../../repositories/IUsersRepository'
+import { SignUpController } from '@/useCases/SignUp/SignUpController'
+import { MissingParamError } from '@/useCases/utils/errors/missing-param-error'
+import { InvalidParamError } from '@/useCases/utils/errors/invalid-param-error'
+import { notMatchParamError } from '@/useCases/utils/errors/not-match-param-error'
+import { StringValidator } from '@/useCases/utils/helpers/string-validation-helper'
+import { SignUpUseCase } from '@/useCases/SignUp/SignUpUseCase'
+import { IUsersRepository } from '@/repositories/IUsersRepository'
 
 interface SutTypes {
     sut: SignUpController,
