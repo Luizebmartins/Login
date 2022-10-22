@@ -1,6 +1,7 @@
 import { IUsersRepository } from '../../repositories/IUsersRepository'
 import { ICreateUserRequestDTO } from './SignUpDTO'
 import { User } from '../../entities/User'
+import * as bcrypt from 'bcrypt'
 export class SignUpUseCase {
     constructor(
         private usersRepository: IUsersRepository
@@ -11,7 +12,8 @@ export class SignUpUseCase {
         if(userAlreadyExists) throw new Error('User already exist')
 
         const user = new User(data)
-
+        user.password = await bcrypt.hash(user.password, 8)
+        
         const newUser = await this.usersRepository.save(user)
 
         if(newUser) {
