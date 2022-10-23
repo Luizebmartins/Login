@@ -32,4 +32,20 @@ describe("Users Repository", () => {
         const userCreated = await sut.save(user)
         expect(userCreated).toBe(true)
     })
+    
+    test('ensure delete user if exist', async () => {
+        const sut = makeSut()
+        const userData = {
+            name: 'anyName',
+            email: 'email@teste.com',
+            password: 'any',
+            phone: ["35997464533"]
+        }
+        const user = new User(userData)
+        const userCreated = await sut.save(user)
+        expect(userCreated).toBe(true)
+
+        const removedUser = await sut.delete(userData.email)
+        expect(removedUser).toBe(true)
+    })
 })

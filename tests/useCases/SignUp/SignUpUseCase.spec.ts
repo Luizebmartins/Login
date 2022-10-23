@@ -17,6 +17,9 @@ const makeUserRepositoryStub = () => {
         save(user: User) {
             return true
         }
+        delete(email: string) {
+            return true
+        }
     }
     return new UserRepositoryStub
 }
