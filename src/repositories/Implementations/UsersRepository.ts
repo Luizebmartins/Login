@@ -13,4 +13,7 @@ export class UsersRepository implements IUsersRepository {
     save(user: User):Promise<boolean> {
         return this.dbaUser.save(user)
     }
+    delete(email: string):Promise<boolean> {
+        return this.dbaUser.delete(email)
+    }
 }

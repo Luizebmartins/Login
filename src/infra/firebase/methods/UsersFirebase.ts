@@ -25,4 +25,18 @@ export class UsersFirebase implements IUsersDbaMethods {
             return false
         }
     }
+
+    async delete(email: string):Promise<boolean> {
+        try {
+            const userSnapshot = (await this.usersRef.where('email', '==', email).get()).docs
+            userSnapshot.forEach((doc: any) => {
+                doc.ref.delete();
+            });
+            
+            return true
+        } catch (error) {
+            console.log(error)
+            return false
+        }
+    }
 }
