@@ -1,5 +1,6 @@
-import {HttpRequest, HttpResponse } from '@/useCases/utils/protocols/http'
-
+import { HttpRequest, HttpResponse } from '@/useCases/utils/protocols/http'
+import { MissingParamError } from '@/useCases/utils/errors/missing-param-error'
+import { badRequest } from '@/useCases/utils/helpers/http-helper'
 
 class SignInController {
     handle(httpRequest: HttpRequest): HttpResponse {
@@ -7,10 +8,7 @@ class SignInController {
 
         for(const field of requiredFields) {
             if(!httpRequest.body[field]) {
-                return {
-                    statusCode: 400,
-                    body: "error"
-                }            
+                return badRequest(new MissingParamError(field))            
             }
         }
 
@@ -33,6 +31,8 @@ describe("SignIn Controller", () => {
 
         const httpResponse = sut.handle(httpRequest)
         expect(httpResponse.statusCode).toBe(400)
+        expect(httpResponse.body).toEqual(new MissingParamError('email'))
+
     })
 })
 
