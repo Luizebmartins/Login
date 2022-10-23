@@ -1,23 +1,8 @@
 import { HttpRequest, HttpResponse } from '@/useCases/utils/protocols/http'
 import { MissingParamError } from '@/useCases/utils/errors/missing-param-error'
 import { badRequest } from '@/useCases/utils/helpers/http-helper'
+import { SignInController } from '@/useCases/SignIn/SignInController'
 
-class SignInController {
-    handle(httpRequest: HttpRequest): HttpResponse {
-        const requiredFields = ['email', 'password']
-
-        for(const field of requiredFields) {
-            if(!httpRequest.body[field]) {
-                return badRequest(new MissingParamError(field))            
-            }
-        }
-
-        return {
-            statusCode: 200,
-            body: ""
-        }
-    }
-}
 
 describe("SignIn Controller", () => {
     test("should return 400 if no email is provided", () => {
