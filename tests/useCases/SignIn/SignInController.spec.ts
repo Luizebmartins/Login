@@ -2,13 +2,7 @@ import { HttpRequest, HttpResponse } from '@/useCases/utils/protocols/http'
 import { MissingParamError } from '@/useCases/utils/errors/missing-param-error'
 import { badRequest } from '@/useCases/utils/helpers/http-helper'
 import { SignInController } from '@/useCases/SignIn/SignInController'
-
-
-class SignInUseCase {
-    execute() {
-        return true
-    }
-}
+import { SignInUseCase } from "@/useCases/SignIn/SignInUseCase"
 
 
 const makeSut = (): any => {
