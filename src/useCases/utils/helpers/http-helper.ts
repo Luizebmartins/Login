@@ -20,3 +20,12 @@ export const Created = (object: any): HttpResponse => {
         body: object
     }
 }
+
+export const login = (token: string): HttpResponse => {
+    return {
+        statusCode: 200,
+        body: {
+            token: token
+        } 
+    }
+}
