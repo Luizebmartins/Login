@@ -4,9 +4,20 @@ import { badRequest } from '@/useCases/utils/helpers/http-helper'
 import { SignInController } from '@/useCases/SignIn/SignInController'
 
 
+const makeSut = (): any => {
+
+    const sut = new SignInController
+
+    return {
+        sut,
+    }
+
+}
+
+
 describe("SignIn Controller", () => {
     test("should return 400 if no email is provided", () => {
-        const sut = new SignInController()
+        const {sut} = makeSut()
 
         const httpRequest = {
             body: {
@@ -21,7 +32,7 @@ describe("SignIn Controller", () => {
     })
 
     test("should return 400 if no password is provided", () => {
-        const sut = new SignInController()
+        const {sut} = makeSut()
 
         const httpRequest = {
             body: {
@@ -34,5 +45,6 @@ describe("SignIn Controller", () => {
         expect(httpResponse.body).toEqual(new MissingParamError('password'))
 
     })
+
 })
 
