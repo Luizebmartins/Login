@@ -70,7 +70,7 @@ describe("SignIn Controller", () => {
     test("should return 200 if successful login", () => {
         const {sut, signUpUseCaseMock} = makeSut()
         jest.spyOn(signUpUseCaseMock, 'execute').mockImplementation(() => {
-            return "anyTokenCripted"
+            return "anytoken"
         })
 
         const httpRequest = {
@@ -79,8 +79,9 @@ describe("SignIn Controller", () => {
                 password: 'any'
             }
         }
-
+        
         const httpResponse = sut.handle(httpRequest)
+        expect(typeof httpResponse.body.token).toBe("string")
         expect(httpResponse.statusCode).toBe(200)
     })
 
