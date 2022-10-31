@@ -3,16 +3,34 @@ import { MissingParamError } from '@/useCases/utils/errors/missing-param-error'
 import { badRequest } from '@/useCases/utils/helpers/http-helper'
 import { SignInController } from '@/useCases/SignIn/SignInController'
 import { SignInUseCase } from "@/useCases/SignIn/SignInUseCase"
+import { IUsersRepository } from '@/repositories/IUsersRepository'
+import { User } from '@/entities/User'
 
+
+const makeUserRepositoryStub = () => {
+    class UserRepositoryStub implements IUsersRepository {
+        get(user: any) {
+            return false
+        }
+
+        save(user: User) {
+            return true
+        }
+        delete(email: string) {
+            return true
+        }
+    }
+    return new UserRepositoryStub
+}
 
 const makeSut = (): any => {
-
-    const signUpUseCaseMock = new SignInUseCase()
-    const sut = new SignInController(signUpUseCaseMock)
+    const userRepositoryStub = makeUserRepositoryStub()
+    const signInUseCaseMock = new SignInUseCase(userRepositoryStub)
+    const sut = new SignInController(signInUseCaseMock)
 
     return {
         sut,
-        signUpUseCaseMock
+        signInUseCaseMock
     }
 
 }
@@ -51,8 +69,8 @@ describe("SignIn Controller", () => {
 
 
     test("should return 500 if SignInUseCase generate an error", () => {
-        const {sut, signUpUseCaseMock} = makeSut()
-        jest.spyOn(signUpUseCaseMock, 'execute').mockImplementation(() => {
+        const {sut, signInUseCaseMock} = makeSut()
+        jest.spyOn(signInUseCaseMock, 'execute').mockImplementation(() => {
             throw new Error()
         })
 
@@ -68,8 +86,8 @@ describe("SignIn Controller", () => {
     })
 
     test("should return 200 if successful login", () => {
-        const {sut, signUpUseCaseMock} = makeSut()
-        jest.spyOn(signUpUseCaseMock, 'execute').mockImplementation(() => {
+        const {sut, signInUseCaseMock} = makeSut()
+        jest.spyOn(signInUseCaseMock, 'execute').mockImplementation(() => {
             return "anytoken"
         })
 
