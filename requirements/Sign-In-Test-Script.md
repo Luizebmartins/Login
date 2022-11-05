@@ -8,3 +8,4 @@
 ## Use case
 - should return an error if the user does not exist
 - should return an error if password is incorrect
+- shoul return an token if successfull login
