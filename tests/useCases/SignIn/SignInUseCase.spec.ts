@@ -1,12 +1,12 @@
 import { SignInUseCase } from "@/useCases/SignIn/SignInUseCase"
 import { IUsersRepository } from '@/repositories/IUsersRepository'
 import { User } from '@/entities/User'
-
+import * as bcrypt from 'bcrypt'
 
 const makeUserRepositoryStub = () => {
     class UserRepositoryStub implements IUsersRepository {
         get(user: any) {
-            return true
+            return {}
         }
 
         save(user: User) {
@@ -40,6 +40,26 @@ describe("Sign In Use Case", () => {
             email: "usernotexistemail@email.com",
             password: "any"
         }
-        expect(()=> {sut.execute(userData)}).toThrow("Email or password is incorrect!")
+        expect(async ()=> {const user = await sut.execute(userData)}).rejects.toThrow("Email or password is incorrect!")
+    })
+
+    test("should return an error if password is incorrect", () => {
+        const {sut, userRepositoryStub} = makeSut()
+        jest.spyOn(userRepositoryStub, 'get').mockImplementation(async () => {
+            const user = {
+                email: "usernotexistemail@email.com",
+                password: "any"
+            }
+
+            user.password = await bcrypt.hash(user.password, 8)
+            return user
+        })
+
+        const userData = {
+            email: "usernotexistemail@email.com",
+            password: "any"
+        }
+
+        expect(async ()=> {const user = await sut.execute(userData)}).rejects.toThrow("Email or password is incorrectd!")
     })
 })
