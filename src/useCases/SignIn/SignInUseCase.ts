@@ -6,8 +6,11 @@ export class SignInUseCase {
         private usersRepository: IUsersRepository
     ) {}
 
-    execute(data: any) {
-        const user = this.usersRepository.get(data.email)
-        if(!user) throw new Error("Email or password is incorrect!")
+    async execute(data: any) {
+        const existingUser = this.usersRepository.get(data.email)
+        if(!existingUser) throw new Error("Email or password is incorrect!")
+
+        const passwordMatch = await bcrypt.compare(data.password, existingUser.password)
+        if(!passwordMatch) throw new Error("Email or password is incorrect!")
     }
 }
