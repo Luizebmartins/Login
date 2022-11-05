@@ -7,7 +7,7 @@ export class SignInUseCase {
     ) {}
 
     async execute(data: any) {
-        const existingUser = this.usersRepository.get(data.email)
+        const existingUser = await this.usersRepository.get(data.email)
         if(!existingUser) throw new Error("Email or password is incorrect!")
 
         const passwordMatch = await bcrypt.compare(data.password, existingUser.password)
