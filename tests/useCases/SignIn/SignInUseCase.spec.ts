@@ -43,12 +43,12 @@ describe("Sign In Use Case", () => {
         expect(async ()=> {const user = await sut.execute(userData)}).rejects.toThrow("Email or password is incorrect!")
     })
 
-    test("should return an error if password is incorrect", () => {
+    test("should return an error if password is incorrect", async () => {
         const {sut, userRepositoryStub} = makeSut()
         jest.spyOn(userRepositoryStub, 'get').mockImplementation(async () => {
             const user = {
                 email: "usernotexistemail@email.com",
-                password: "any"
+                password: "other"
             }
 
             user.password = await bcrypt.hash(user.password, 8)
@@ -60,6 +60,6 @@ describe("Sign In Use Case", () => {
             password: "any"
         }
 
-        expect(async ()=> {const user = await sut.execute(userData)}).rejects.toThrow("Email or password is incorrectd!")
+        await expect(async ()=> {const user = await sut.execute(userData)}).rejects.toThrow("Email or password is incorrect!")
     })
 })
