@@ -1,4 +1,4 @@
-import { Table, Column, Model, PrimaryKey, AutoIncrement} from 'sequelize-typescript'
+import { Table, Column, Model, PrimaryKey, AutoIncrement, Default, AllowNull, Unique} from 'sequelize-typescript'
 
 @Table
 class User extends Model {
@@ -8,12 +8,21 @@ class User extends Model {
     id: number
 
     @Column
+    @AllowNull(false)
     name: string
 
     @Column
+    @AllowNull(false)
+    @Unique
     email: string
 
     @Column
+    @AllowNull(false)
+    password: string
+
+
+    @Column
+    @AllowNull(false)
     phone: string
 
     @Column
@@ -24,6 +33,22 @@ class User extends Model {
 
     @Column
     site: string
+
+    @Column
+    @Default(0)
+    score: number
+
+    @Column
+    @Default(false)
+    t_admin: string
+
+    @Column
+    @Default(false)
+    t_volunt: string
+
+    @Column
+    @Default(false)
+    t_adop: string
 }
 
 module.exports = {
