@@ -1,8 +1,14 @@
 import { HttpRequest, HttpResponse} from '../utils/protocols/http'
 import { MissingParamError } from '../utils/errors/missing-param-error'
 import { badRequest } from '../utils/helpers/http-helper'
+import { login } from '../utils/helpers/http-helper'
+import { InternalServerError } from '../utils/helpers/http-helper'
 
 export class SignInController {
+    constructor(
+        private signInUseCase: any
+    ) {}
+    
     handle(httpRequest: HttpRequest): HttpResponse {
         const requiredFields = ['email', 'password']
 
@@ -12,9 +18,12 @@ export class SignInController {
             }
         }
 
-        return {
-            statusCode: 200,
-            body: ""
+        try {
+            const token = this.signInUseCase.execute()
+            return login(token)
+        } catch (error) {
+            return InternalServerError(new Error(error.message))
         }
+
     }
 }

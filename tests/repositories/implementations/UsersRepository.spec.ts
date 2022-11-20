@@ -28,7 +28,7 @@ describe("Users Repository", () => {
         expect(userGet).toBeInstanceOf(User)
     })
 
-    test.only("ensure successful user creation", async () => {
+    test("ensure successful user creation", async () => {
         const sut = makeSut()
         const userData = {
             name: 'anyName',
