@@ -1,6 +1,6 @@
 import { User } from '../../entities/User'
 import { IUsersRepository } from '../IUsersRepository'
-import { IUsersDbaMethods } from '../../infra/IUsersDbaMethods'
+import { IUsersDbaMethods } from '../../data/IUsersDbaMethods'
 
 export class UsersRepository implements IUsersRepository {
     constructor(

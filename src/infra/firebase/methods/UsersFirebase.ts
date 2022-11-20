@@ -1,4 +1,4 @@
-import { IUsersDbaMethods } from '../../IUsersDbaMethods'
+import { IUsersDbaMethods } from '../../../data/IUsersDbaMethods'
 import { User } from '../../../entities/User'
 
 
