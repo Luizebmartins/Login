@@ -1,6 +1,6 @@
 import { User } from '@/entities/User'
 import { IUsersRepository } from '@/repositories/IUsersRepository'
-import { IUsersDbaMethods } from '@/infra/IUsersDbaMethods'
+import { IUsersDbaMethods } from '@/data/IUsersDbaMethods'
 import { UsersFirebase } from '@/infra/firebase/methods/UsersFirebase'
 import { firebaseAdmin } from '@/infra/firebase/connection/firebase'
 import { UsersRepository } from '@/repositories/Implementations/UsersRepository'
