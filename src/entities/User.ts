@@ -8,9 +8,9 @@ export class User {
     public name!: string
     public email!: string
     public password!: string
-    public phone?: Array<string>
+    public phone?: string
     public score?: number
-    public address?: Array<Address>
+    public address?: string
     public t_admin?: boolean
     public t_adop?: boolean
     public t_volunt?: boolean

@@ -45,7 +45,8 @@ describe('Sign Up Use Case', () => {
         const userData = {
             name: 'anyName',
             email: 'any@gmail',
-            password: "any"
+            password: "any",
+            phone: '999999'
         }
 
         try {
@@ -64,7 +65,9 @@ describe('Sign Up Use Case', () => {
         const userData = {
             name: 'anyName',
             email: 'any@gmail',
-            password: "any"
+            password: "any",
+            phone: '999999'
+
         }
 
         const response = await sut.execute(userData)

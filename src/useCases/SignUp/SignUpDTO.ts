@@ -6,10 +6,11 @@ interface Address {
 
 
 export interface ICreateUserRequestDTO {
-    name: string,
-    email: string,
-    password: string,
-    phone?: Array<string>,
-    score?: number,
-    address?: Array<Address>
+  name: string
+  password: string
+  email: string
+  phone: string
+  score?: number | null
+  street?: string
+  homeNumber?: string
 }
