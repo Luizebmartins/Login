@@ -1,7 +1,6 @@
-import { User } from '../../entities/User'
 import { IUsersRepository } from '../IUsersRepository'
-import { IUsersDbaMethods } from '../../data/IUsersDbaMethods'
-
+import { IUsersDbaMethods } from '../../data/user/IUsersDbaMethods'
+import User from '../../infra/models/user'
 export class UsersRepository implements IUsersRepository {
     constructor(
         private dbaUser: IUsersDbaMethods

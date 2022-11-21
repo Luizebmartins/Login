@@ -1,5 +1,5 @@
-import { IUsersDbaMethods } from '../../../data/IUsersDbaMethods'
-import { User } from '../../../entities/User'
+import { IUsersDbaMethods } from '../../../data/user/IUsersDbaMethods'
+import User from '../../models/user'
 
 
 

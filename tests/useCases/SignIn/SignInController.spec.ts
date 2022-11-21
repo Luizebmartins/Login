@@ -4,7 +4,7 @@ import { badRequest } from '@/useCases/utils/helpers/http-helper'
 import { SignInController } from '@/useCases/SignIn/SignInController'
 import { SignInUseCase } from "@/useCases/SignIn/SignInUseCase"
 import { IUsersRepository } from '@/repositories/IUsersRepository'
-import { User } from '@/entities/User'
+import User from "@/infra/models/user"
 
 
 const makeUserRepositoryStub = () => {

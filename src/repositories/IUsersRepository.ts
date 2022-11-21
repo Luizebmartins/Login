@@ -1,7 +1,7 @@
-import { User } from '../entities/User'
+import User from '../infra/models/user'
 
 export interface IUsersRepository {
     get(email: string): any
-    save(user: User): any
+    save(user: any): any
     delete(email: string): any
 }

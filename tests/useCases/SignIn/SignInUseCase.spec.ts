@@ -1,6 +1,6 @@
 import { SignInUseCase } from "@/useCases/SignIn/SignInUseCase"
 import { IUsersRepository } from '@/repositories/IUsersRepository'
-import { User } from '@/entities/User'
+import User from '@/infra/models/user'
 import * as bcrypt from 'bcrypt'
 
 const makeUserRepositoryStub = () => {

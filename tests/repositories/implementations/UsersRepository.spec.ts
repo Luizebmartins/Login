@@ -1,8 +1,11 @@
-import { User } from '@/entities/User'
 import { IUsersRepository } from '@/repositories/IUsersRepository'
-import { IUsersDbaMethods } from '@/data/IUsersDbaMethods'
+import { IUsersDbaMethods } from '@/data/user/IUsersDbaMethods'
 import { UsersFirebase } from '@/infra/firebase/methods/UsersFirebase'
 import { firebaseAdmin } from '@/infra/firebase/connection/firebase'
+import User from '@/infra/models/user'
+
+// import {} from '@/'
+
 import { UsersRepository } from '@/repositories/Implementations/UsersRepository'
 const usersRef = firebaseAdmin.firestore().collection('users');
 
@@ -19,7 +22,7 @@ describe("Users Repository", () => {
             name: 'anyName',
             email: 'email@teste.com',
             password: 'any',
-            phone: ["35997464533"]
+            phone: "35997464533"
         }
         const user = new User(userData)
         const userCreated = await sut.save(user)
@@ -28,18 +31,17 @@ describe("Users Repository", () => {
         expect(userGet).toBeInstanceOf(User)
     })
 
-    test("ensure successful user creation", async () => {
+    test.only("ensure successful user creation", async () => {
         const sut = makeSut()
         const userData = {
             name: 'anyName',
             email: 'email@teste.com',
             password: 'any',
-            phone: ["35997464533"]
+            phone: "35997464533"
         }
         const user = new User(userData)
         const userCreated = await sut.save(user)
         expect(userCreated).toBe(true)
-        await sut.delete(user.email)
     })
     
     test('ensure delete user if exist', async () => {
@@ -48,7 +50,7 @@ describe("Users Repository", () => {
             name: 'anyName',
             email: 'email@teste.com',
             password: 'any',
-            phone: ["35997464533"]
+            phone: "35997464533"
         }
         const user = new User(userData)
         const userCreated = await sut.save(user)
