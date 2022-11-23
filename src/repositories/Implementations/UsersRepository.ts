@@ -1,9 +1,9 @@
 import { IUsersRepository } from '../IUsersRepository'
-import { IUsersDbaMethods } from '../../data/user/IUsersDbaMethods'
+import { IUserData } from '../../data/user/IUserData'
 import User from '../../infra/models/user'
 export class UsersRepository implements IUsersRepository {
     constructor(
-        private dbaUser: IUsersDbaMethods
+        private dbaUser: IUserData
     ){}
     
     get(email: string):Promise<any> {

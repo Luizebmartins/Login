@@ -1,9 +1,9 @@
-import { IUsersDbaMethods } from '../../../data/user/IUsersDbaMethods'
+import { IUserData } from '../../../data/user/IUserData'
 import User from '../../models/user'
 
 
 
-export class UsersFirebase implements IUsersDbaMethods {
+export class UsersFirebase implements IUserData {
     constructor(
         private usersRef: any
     ){}
