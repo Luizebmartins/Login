@@ -1,18 +1,13 @@
 import { IUsersRepository } from '@/repositories/IUsersRepository'
-import { IUsersDbaMethods } from '@/data/user/IUsersDbaMethods'
-import { UsersFirebase } from '@/infra/firebase/methods/UsersFirebase'
-import { firebaseAdmin } from '@/infra/firebase/connection/firebase'
+import { UsersRepository } from '@/repositories/Implementations/UsersRepository'
+import { UserPostgres } from '@/data/user/userData'
 import User from '@/infra/models/user'
 
-// import {} from '@/'
-
-import { UsersRepository } from '@/repositories/Implementations/UsersRepository'
-const usersRef = firebaseAdmin.firestore().collection('users');
 
 
 const makeSut = (): IUsersRepository => {
-    const usersFirebase = new UsersFirebase(usersRef)
-    return new UsersRepository(usersFirebase)
+    const userPostgres = new UserPostgres()
+    return new UsersRepository(userPostgres)
 }
 
 describe("Users Repository", () => {
@@ -35,13 +30,12 @@ describe("Users Repository", () => {
         const sut = makeSut()
         const userData = {
             name: 'anyName',
-            email: 'email@teste.com',
+            email: 'email2@teste.com',
             password: 'any',
             phone: "35997464533"
         }
-        const user = new User(userData)
-        const userCreated = await sut.save(user)
-        expect(userCreated).toBe(true)
+        const userCreated = await sut.save(userData)
+        expect(userCreated).toBeInstanceOf(User)
     })
     
     test('ensure delete user if exist', async () => {
