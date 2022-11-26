@@ -1,4 +1,5 @@
 import { IUsersRepository } from '../../repositories/IUsersRepository'
+import { ISignInDTO } from './SignInDTO'
 import * as bcrypt from 'bcrypt'
 import * as jwt from 'jsonwebtoken'
 
@@ -7,7 +8,7 @@ export class SignInUseCase {
         private usersRepository: IUsersRepository
     ) {}
 
-    async execute(data: any): Promise<any> {
+    async execute(data: ISignInDTO): Promise<any> {
         const existingUser = await this.usersRepository.get(data.email)
         if(!existingUser) throw new Error("Email or password is incorrect!")
 
