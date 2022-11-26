@@ -9,7 +9,7 @@ export class SignInController {
         private signInUseCase: any
     ) {}
     
-    handle(httpRequest: HttpRequest): HttpResponse {
+    async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
         const requiredFields = ['email', 'password']
 
         for(const field of requiredFields) {

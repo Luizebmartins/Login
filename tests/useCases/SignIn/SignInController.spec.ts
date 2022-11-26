@@ -37,7 +37,7 @@ const makeSut = (): any => {
 
 
 describe("SignIn Controller", () => {
-    test("should return 400 if no email is provided", () => {
+    test("should return 400 if no email is provided", async () => {
         const {sut} = makeSut()
 
         const httpRequest = {
@@ -46,13 +46,13 @@ describe("SignIn Controller", () => {
             }
         }
 
-        const httpResponse = sut.handle(httpRequest)
+        const httpResponse = await sut.handle(httpRequest)
         expect(httpResponse.statusCode).toBe(400)
         expect(httpResponse.body).toEqual(new MissingParamError('email'))
 
     })
 
-    test("should return 400 if no password is provided", () => {
+    test("should return 400 if no password is provided", async () => {
         const {sut} = makeSut()
 
         const httpRequest = {
@@ -61,14 +61,14 @@ describe("SignIn Controller", () => {
             }
         }
 
-        const httpResponse = sut.handle(httpRequest)
+        const httpResponse = await sut.handle(httpRequest)
         expect(httpResponse.statusCode).toBe(400)
         expect(httpResponse.body).toEqual(new MissingParamError('password'))
 
     })
 
 
-    test("should return 500 if SignInUseCase generate an error", () => {
+    test("should return 500 if SignInUseCase generate an error", async () => {
         const {sut, signInUseCaseMock} = makeSut()
         jest.spyOn(signInUseCaseMock, 'execute').mockImplementation(() => {
             throw new Error()
@@ -81,11 +81,11 @@ describe("SignIn Controller", () => {
             }
         }
 
-        const httpResponse = sut.handle(httpRequest)
+        const httpResponse = await sut.handle(httpRequest)
         expect(httpResponse.statusCode).toBe(500)
     })
 
-    test("should return 200 if successful login", () => {
+    test("should return 200 if successful login", async () => {
         const {sut, signInUseCaseMock} = makeSut()
         jest.spyOn(signInUseCaseMock, 'execute').mockImplementation(() => {
             return "anytoken"
@@ -98,7 +98,7 @@ describe("SignIn Controller", () => {
             }
         }
         
-        const httpResponse = sut.handle(httpRequest)
+        const httpResponse = await sut.handle(httpRequest)
         expect(typeof httpResponse.body.token).toBe("string")
         expect(httpResponse.statusCode).toBe(200)
     })
