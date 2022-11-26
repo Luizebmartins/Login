@@ -14,19 +14,18 @@ describe("Users Repository", () => {
     test("ensure return user if exist", async () => {
         const sut = makeSut()
         const userData = {
-            name: 'anyName',
-            email: 'email@teste.com',
+            name: 'luiz',
+            email: 'luiz@email.com                                                                                      ',
             password: 'any',
             phone: "35997464533"
         }
         const user = new User(userData)
-        const userCreated = await sut.save(user)
         
         const userGet = await sut.get(user.email)
         expect(userGet).toBeInstanceOf(User)
     })
 
-    test.only("ensure successful user creation", async () => {
+    test("ensure successful user creation", async () => {
         const sut = makeSut()
         const userData = {
             name: 'anyName',
@@ -38,19 +37,19 @@ describe("Users Repository", () => {
         expect(userCreated).toBeInstanceOf(User)
     })
     
-    test('ensure delete user if exist', async () => {
+    test.only('ensure delete user if exist', async () => {
         const sut = makeSut()
         const userData = {
-            name: 'anyName',
-            email: 'email@teste.com',
+            name: 'deleteUser',
+            email: 'deleteuser@teste.com',
             password: 'any',
             phone: "35997464533"
         }
-        const user = new User(userData)
-        const userCreated = await sut.save(user)
-        expect(userCreated).toBe(true)
+        const userCreated = await sut.save(userData)
+        expect(userCreated).toBeInstanceOf(User)
 
-        const removedUser = await sut.delete(user.email)
-        expect(removedUser).toBe(true)
+        const removedUser = await sut.delete(userData.email)
+        console.log(removedUser)
+        expect(removedUser).toBe(1)
     })
 })
