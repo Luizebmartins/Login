@@ -14,15 +14,15 @@ describe("Users Repository", () => {
     test("ensure return user if exist", async () => {
         const sut = makeSut()
         const userData = {
-            name: 'luiz',
-            email: 'luiz@email.com                                                                                      ',
+            name: 'existuser',
+            email: 'existuser@email.com                                                                                      ',
             password: 'any',
             phone: "35997464533"
         }
-        const user = new User(userData)
-        
-        const userGet = await sut.get(user.email)
+        await sut.save(userData)
+        const userGet = await sut.get(userData.email)
         expect(userGet).toBeInstanceOf(User)
+        await sut.delete(userData.email)
     })
 
     test("ensure successful user creation", async () => {
@@ -35,9 +35,10 @@ describe("Users Repository", () => {
         }
         const userCreated = await sut.save(userData)
         expect(userCreated).toBeInstanceOf(User)
+        await sut.delete(userData.email)
     })
     
-    test.only('ensure delete user if exist', async () => {
+    test('ensure delete user if exist', async () => {
         const sut = makeSut()
         const userData = {
             name: 'deleteUser',
@@ -49,7 +50,6 @@ describe("Users Repository", () => {
         expect(userCreated).toBeInstanceOf(User)
 
         const removedUser = await sut.delete(userData.email)
-        console.log(removedUser)
         expect(removedUser).toBe(1)
     })
 })
