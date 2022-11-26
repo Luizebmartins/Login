@@ -6,13 +6,13 @@ export class UsersRepository implements IUsersRepository {
         private dbaUser: IUserData
     ){}
     
-    get(email: string):Promise<any> {
+    get(email: string):Promise<User> {
         return this.dbaUser.get(email)
     }
-    save(user: User):Promise<boolean> {
+    save(user: User):Promise<User> {
         return this.dbaUser.save(user)
     }
-    delete(email: string):Promise<boolean> {
+    delete(email: string):Promise<number> {
         return this.dbaUser.delete(email)
     }
 }
