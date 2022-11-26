@@ -4,6 +4,7 @@ import { router } from './routes/SignUpRoute'
 const app = express()
 
 app.use(express.json())
-app.use(router)
+app.use(require('routes/SignUpRoute'))
+app.use(require('routes/SignInRoute'))
 
 app.listen(3000)
