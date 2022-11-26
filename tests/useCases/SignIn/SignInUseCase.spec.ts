@@ -2,7 +2,8 @@ import { SignInUseCase } from "@/useCases/SignIn/SignInUseCase"
 import { IUsersRepository } from '@/repositories/IUsersRepository'
 import User from '@/infra/models/user'
 import * as bcrypt from 'bcrypt'
-import exp from "constants"
+import * as jwt from 'jsonwebtoken'
+require('dotenv').config()
 
 const makeUserRepositoryStub = () => {
     class UserRepositoryStub implements IUsersRepository {
@@ -64,7 +65,7 @@ describe("Sign In Use Case", () => {
         await expect(async ()=> {const user = await sut.execute(userData)}).rejects.toThrow("Email or password is incorrect!")
     })
 
-    test('should return true if the data matches', async () => {
+    test('should return true and token if the data matches', async () => {
         const {sut, userRepositoryStub} = makeSut()
         jest.spyOn(userRepositoryStub, 'get').mockImplementation(async () => {
             const user = {
@@ -81,7 +82,11 @@ describe("Sign In Use Case", () => {
             password: "other"
         }
 
+        
         const userToken = await sut.execute(userData)
         expect(userToken.success).toBe(true)
+
+        const decodedToken = jwt.verify(userToken.token, process.env.JWT_KEY) as {email: string}
+        expect(decodedToken.email).toBe(userData.email)
     })
 })
