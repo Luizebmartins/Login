@@ -1,5 +1,6 @@
 import { IUsersRepository } from '../../repositories/IUsersRepository'
 import * as bcrypt from 'bcrypt'
+import * as jwt from 'jsonwebtoken'
 
 export class SignInUseCase {
     constructor(
@@ -13,8 +14,15 @@ export class SignInUseCase {
         const passwordMatch = await bcrypt.compare(data.password, existingUser.password)
         if(!passwordMatch) throw new Error("Email or password is incorrect!")
         
+        const token = jwt.sign({
+            email: existingUser.email,
+        }, process.env.JWT_KEY, {
+            expiresIn: '1d',
+        })
+
         return {
             success: true,
+            token: token
         }
     }
 }
