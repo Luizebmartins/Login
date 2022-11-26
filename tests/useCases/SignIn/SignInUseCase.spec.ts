@@ -2,6 +2,7 @@ import { SignInUseCase } from "@/useCases/SignIn/SignInUseCase"
 import { IUsersRepository } from '@/repositories/IUsersRepository'
 import User from '@/infra/models/user'
 import * as bcrypt from 'bcrypt'
+import exp from "constants"
 
 const makeUserRepositoryStub = () => {
     class UserRepositoryStub implements IUsersRepository {
@@ -61,5 +62,26 @@ describe("Sign In Use Case", () => {
         }
 
         await expect(async ()=> {const user = await sut.execute(userData)}).rejects.toThrow("Email or password is incorrect!")
+    })
+
+    test('should return true if the data matches', async () => {
+        const {sut, userRepositoryStub} = makeSut()
+        jest.spyOn(userRepositoryStub, 'get').mockImplementation(async () => {
+            const user = {
+                email: "usernotexistemail@email.com",
+                password: "other"
+            }
+
+            user.password = await bcrypt.hash(user.password, 8)
+            return user
+        })
+
+        const userData = {
+            email: "usernotexistemail@email.com",
+            password: "other"
+        }
+
+        const userToken = await sut.execute(userData)
+        expect(userToken.success).toBe(true)
     })
 })
