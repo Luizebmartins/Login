@@ -1,7 +1,7 @@
 
 import { SignUpUseCase } from '@/useCases/SignUp/SignUpUseCase'
 import { IUsersRepository } from '@/repositories/IUsersRepository'
-import { User } from '@/entities/User'
+import User from '@/infra/models/user'
 
 interface SutTypes {
     sut: SignUpUseCase,
