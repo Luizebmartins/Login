@@ -5,6 +5,12 @@ import { MissingParamError } from '../utils/errors/missing-param-error'
 
 export class UserController {
     update(request: HttpRequest): HttpResponse {
+        if(!request.authentication) {
+            return {
+                statusCode: 401,
+                body: 'any'
+            }
+        }
         if(!request.body) {
             return badRequest(new MissingBodyError())
         }
@@ -12,6 +18,7 @@ export class UserController {
         if(!request.body.password) {
             return badRequest(new MissingParamError('password'))
         }
+
 
         return {
             statusCode: 200,
