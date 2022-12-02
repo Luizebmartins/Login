@@ -1,6 +1,7 @@
 import { HttpRequest, HttpResponse} from '../utils/protocols/http'
 import { badRequest } from '../utils/helpers/http-helper'
 import { MissingBodyError } from '../utils/errors/missing-body-error'
+import { MissingParamError } from '../utils/errors/missing-param-error'
 
 export class UserController {
     handle(request: HttpRequest): HttpResponse {
@@ -9,10 +10,7 @@ export class UserController {
         }
 
         if(!request.body.password) {
-            return {
-                statusCode: 400,
-                body: {}
-            }
+            return badRequest(new MissingParamError('password'))
         }
 
         return {

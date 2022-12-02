@@ -1,5 +1,5 @@
 import { UserController } from "@/useCases/User/UserController"
-
+import { MissingParamError } from '@/useCases/utils/errors/missing-param-error'
 
 
 describe('Update users', () => {
@@ -7,8 +7,8 @@ describe('Update users', () => {
         const sut = new UserController()
         const httpRequest = {}
         
-        const response =  sut.handle(httpRequest)
-        expect(response.statusCode).toBe(400)
+        const httpResponse =  sut.handle(httpRequest)
+        expect(httpResponse.statusCode).toBe(400)
     })
 
     test('should return 400 if no password is provided', () => {
@@ -21,7 +21,8 @@ describe('Update users', () => {
             }
         }
 
-        const response =  sut.handle(httpRequest)
-        expect(response.statusCode).toBe(400)
+        const httpResponse =  sut.handle(httpRequest)
+        expect(httpResponse.statusCode).toBe(400)
+        expect(httpResponse.body).toEqual(new MissingParamError('password'))
     })
 })
