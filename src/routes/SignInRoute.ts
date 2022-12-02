@@ -8,4 +8,4 @@ router.post('/signin', async (request, response) => {
     response.status(res.statusCode).send(res.body.token)
 });
 
-export { router }
+module.exports = router

@@ -8,4 +8,4 @@ router.post('/signup', async (request, response) => {
     response.status(res.statusCode).send(res.body.message)
 });
 
-export { router }
+module.exports = router
