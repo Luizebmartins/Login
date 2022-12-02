@@ -26,4 +26,20 @@ describe('Update users', () => {
         expect(httpResponse.statusCode).toBe(400)
         expect(httpResponse.body).toEqual(new MissingParamError('password'))
     })
+
+    test('should return 401 if authorization token is missing', () => {
+        const sut = new UserController()
+
+        const httpRequest = {
+            body: {
+                password: 'any',
+                updateData: {
+                    email: 'email@email.com',
+                }
+            }
+        }
+
+        const httpResponse =  sut.update(httpRequest)
+        expect(httpResponse.statusCode).toBe(401)
+    })
 })
