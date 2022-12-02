@@ -8,6 +8,13 @@ export class UserController {
             return badRequest(new MissingBodyError())
         }
 
+        if(!request.body.password) {
+            return {
+                statusCode: 400,
+                body: {}
+            }
+        }
+
         return {
             statusCode: 200,
             body: {}
