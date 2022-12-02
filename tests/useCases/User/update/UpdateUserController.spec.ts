@@ -7,7 +7,7 @@ describe('Update users', () => {
         const sut = new UserController()
         const httpRequest = {}
         
-        const httpResponse =  sut.handle(httpRequest)
+        const httpResponse =  sut.update(httpRequest)
         expect(httpResponse.statusCode).toBe(400)
         expect(httpResponse.body).toEqual(new MissingBodyError())
     })
@@ -22,7 +22,7 @@ describe('Update users', () => {
             }
         }
 
-        const httpResponse =  sut.handle(httpRequest)
+        const httpResponse =  sut.update(httpRequest)
         expect(httpResponse.statusCode).toBe(400)
         expect(httpResponse.body).toEqual(new MissingParamError('password'))
     })

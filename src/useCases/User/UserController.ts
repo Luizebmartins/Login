@@ -4,7 +4,7 @@ import { MissingBodyError } from '../utils/errors/missing-body-error'
 import { MissingParamError } from '../utils/errors/missing-param-error'
 
 export class UserController {
-    handle(request: HttpRequest): HttpResponse {
+    update(request: HttpRequest): HttpResponse {
         if(!request.body) {
             return badRequest(new MissingBodyError())
         }
