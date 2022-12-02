@@ -1,15 +1,12 @@
 import { HttpRequest, HttpResponse} from '../utils/protocols/http'
-import { badRequest } from '../utils/helpers/http-helper'
+import { badRequest, unauthorized } from '../utils/helpers/http-helper'
 import { MissingBodyError } from '../utils/errors/missing-body-error'
 import { MissingParamError } from '../utils/errors/missing-param-error'
-
+import { MissingTokenError } from '../utils/errors/missing-token-error'
 export class UserController {
     update(request: HttpRequest): HttpResponse {
         if(!request.authentication) {
-            return {
-                statusCode: 401,
-                body: 'any'
-            }
+            return unauthorized(new MissingTokenError())
         }
         if(!request.body) {
             return badRequest(new MissingBodyError())
