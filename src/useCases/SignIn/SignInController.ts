@@ -3,10 +3,11 @@ import { MissingParamError } from '../utils/errors/missing-param-error'
 import { badRequest } from '../utils/helpers/http-helper'
 import { login } from '../utils/helpers/http-helper'
 import { InternalServerError } from '../utils/helpers/http-helper'
+import { SignInUseCase } from './SignInUseCase'
 
 export class SignInController {
     constructor(
-        private signInUseCase: any
+        private signInUseCase: SignInUseCase
     ) {}
     
     async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -19,7 +20,7 @@ export class SignInController {
         }
 
         try {
-            const token = this.signInUseCase.execute()
+            const token = await this.signInUseCase.execute(httpRequest.body)
             return login(token)
         } catch (error) {
             return InternalServerError(new Error(error.message))
