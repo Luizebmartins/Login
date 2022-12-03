@@ -3,10 +3,28 @@ import { MissingParamError } from '@/useCases/utils/errors/missing-param-error'
 import { MissingBodyError } from '@/useCases/utils/errors/missing-body-error'
 import { MissingTokenError } from '@/useCases/utils/errors/missing-token-error'
 
+const makeUserUseCaseStub = () => {
+    class UserUseCase {
+        update(data: any) {
+            return {
+                success: true
+            }
+        }
+    }
+
+    return new UserUseCase()
+}
+
+const makeSut = () => {
+        const userUseCaseStub =  makeUserUseCaseStub()
+        const sut = new UserController(userUseCaseStub)
+
+        return sut
+}
 
 describe('Update users', () => {
     test('should return 400 if no data is provided', () => {
-        const sut = new UserController()
+        const sut = makeSut()
         const httpRequest = {
         params: {
             id: 'any'
@@ -22,7 +40,7 @@ describe('Update users', () => {
     })
 
     test('should return 400 if no password is provided', () => {
-        const sut = new UserController()
+        const sut = makeSut()
         const httpRequest = {
             params: {
                 id: 'any'
@@ -43,7 +61,7 @@ describe('Update users', () => {
     })
 
     test('should return 401 if authorization token is missing', () => {
-        const sut = new UserController()
+        const sut = makeSut()
 
         const httpRequest = {
             body: {
@@ -60,7 +78,7 @@ describe('Update users', () => {
     })
 
     test('should return 403 if user does not have permission', () => {
-        const sut = new UserController()
+        const sut = makeSut()
         const httpRequest = {
             params: {
                 id: 'other'
@@ -77,6 +95,29 @@ describe('Update users', () => {
         const httpResponse =  sut.update(httpRequest)
         expect(httpResponse.statusCode).toBe(403)
         expect(httpResponse.body).toEqual(new Error('Unauthorized'))
+
+    })
+
+    test('should return true and status 200 if user is updated', () => {
+        const sut = makeSut()
+        const httpRequest = {
+            params: {
+                id: 'any'
+            },
+            authentication: {
+                id: 'any'
+            },
+            body: {
+                password: 'any',
+                updateData: {
+                    email: 'email@email.com',
+                }
+            }
+        }
+
+        const httpResponse =  sut.update(httpRequest)
+        expect(httpResponse.statusCode).toBe(200)
+        expect(httpResponse.body.success).toBe(true)
 
     })
 })
