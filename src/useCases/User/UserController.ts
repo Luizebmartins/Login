@@ -8,6 +8,12 @@ export class UserController {
         if(!request.authentication) {
             return unauthorized(new MissingTokenError())
         }
+        if(request.authentication.id !== request.params.id) {
+            return {
+                statusCode: 403,
+                body: new Error('Unauthorized')
+            }
+        }
         if(!request.body) {
             return badRequest(new MissingBodyError())
         }
