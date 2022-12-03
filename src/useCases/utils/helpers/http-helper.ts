@@ -14,6 +14,13 @@ export const unauthorized = (error: Error): HttpResponse => {
     }
 }
 
+export const forbidden = (error: Error): HttpResponse => {
+    return {
+        statusCode: 403,
+        body: error
+    }
+}
+
 export const InternalServerError =  (error: Error): HttpResponse => {
     return {
         statusCode: 500,
