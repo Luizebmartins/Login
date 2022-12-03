@@ -29,6 +29,8 @@ export class UserController {
             const update = this.userUseCase.update(request.body)
             if(update.success) {
                 return updated()
+            } else {
+                throw new Error('Error when updating user')
             }
 
         } catch (error) {
