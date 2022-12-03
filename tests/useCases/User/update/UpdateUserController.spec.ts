@@ -19,12 +19,12 @@ const makeSut = () => {
         const userUseCaseStub =  makeUserUseCaseStub()
         const sut = new UserController(userUseCaseStub)
 
-        return sut
+        return {sut, userUseCaseStub}
 }
 
 describe('Update users', () => {
     test('should return 400 if no data is provided', () => {
-        const sut = makeSut()
+        const {sut} = makeSut()
         const httpRequest = {
         params: {
             id: 'any'
@@ -40,7 +40,7 @@ describe('Update users', () => {
     })
 
     test('should return 400 if no password is provided', () => {
-        const sut = makeSut()
+        const {sut} = makeSut()
         const httpRequest = {
             params: {
                 id: 'any'
@@ -61,7 +61,7 @@ describe('Update users', () => {
     })
 
     test('should return 401 if authorization token is missing', () => {
-        const sut = makeSut()
+        const {sut} = makeSut()
 
         const httpRequest = {
             body: {
@@ -78,7 +78,7 @@ describe('Update users', () => {
     })
 
     test('should return 403 if user does not have permission', () => {
-        const sut = makeSut()
+        const {sut} = makeSut()
         const httpRequest = {
             params: {
                 id: 'other'
@@ -99,7 +99,7 @@ describe('Update users', () => {
     })
 
     test('should return true and status 200 if user is updated', () => {
-        const sut = makeSut()
+        const {sut} = makeSut()
         const httpRequest = {
             params: {
                 id: 'any'
@@ -119,5 +119,30 @@ describe('Update users', () => {
         expect(httpResponse.statusCode).toBe(200)
         expect(httpResponse.body.success).toBe(true)
 
+    })
+
+    test('should return 500 if UserUseCase generate an error', () => {
+        const {sut, userUseCaseStub} = makeSut()
+        jest.spyOn(userUseCaseStub, 'update').mockImplementation(() => {
+            throw new Error()
+        })
+
+        const httpRequest = {
+            params: {
+                id: 'any'
+            },
+            authentication: {
+                id: 'any'
+            },
+            body: {
+                password: 'any',
+                updateData: {
+                    email: 'email@email.com',
+                }
+            }
+        }
+
+        const httpResponse =  sut.update(httpRequest)
+        expect(httpResponse.statusCode).toBe(500)
     })
 })
