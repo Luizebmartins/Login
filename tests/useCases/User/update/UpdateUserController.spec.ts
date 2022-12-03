@@ -145,4 +145,33 @@ describe('Update users', () => {
         const httpResponse =  sut.update(httpRequest)
         expect(httpResponse.statusCode).toBe(500)
     })
+
+    test('should return 500 if UserUseCase does not update and does not generate error', () => {
+        const {sut, userUseCaseStub} = makeSut()
+        jest.spyOn(userUseCaseStub, 'update').mockImplementation(() => {
+            return {
+                success: false,
+                body: {}
+            }
+        })
+
+        const httpRequest = {
+            params: {
+                id: 'any'
+            },
+            authentication: {
+                id: 'any'
+            },
+            body: {
+                password: 'any',
+                updateData: {
+                    email: 'email@email.com',
+                }
+            }
+        }
+
+        const httpResponse =  sut.update(httpRequest)
+        expect(httpResponse.statusCode).toBe(500)
+        expect(httpResponse.body).toEqual(new Error('Error when updating user'))
+    })
 })
