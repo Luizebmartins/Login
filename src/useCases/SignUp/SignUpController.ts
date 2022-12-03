@@ -1,7 +1,7 @@
 import { HttpRequest, HttpResponse } from '../utils/protocols/http'
 import { MissingParamError } from '../utils/errors/missing-param-error'
 import { badRequest } from '../utils/helpers/http-helper'
-import { InternalServerError } from '../utils/helpers/http-helper'
+import { internalServerError } from '../utils/helpers/http-helper'
 import { Created } from '../utils/helpers/http-helper'
 import { StringValidator } from '../utils/helpers/string-validation-helper'
 import { InvalidParamError } from '../utils/errors/invalid-param-error'
@@ -37,7 +37,7 @@ export class SignUpController {
 
             return Created(reponse)
         } catch (error: any) {
-            return InternalServerError(new Error(error.message))
+            return internalServerError(new Error(error.message))
         }
     
     }

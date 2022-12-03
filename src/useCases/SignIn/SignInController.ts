@@ -2,7 +2,7 @@ import { HttpRequest, HttpResponse} from '../utils/protocols/http'
 import { MissingParamError } from '../utils/errors/missing-param-error'
 import { badRequest } from '../utils/helpers/http-helper'
 import { login } from '../utils/helpers/http-helper'
-import { InternalServerError } from '../utils/helpers/http-helper'
+import { internalServerError } from '../utils/helpers/http-helper'
 import { SignInUseCase } from './SignInUseCase'
 
 export class SignInController {
@@ -23,7 +23,7 @@ export class SignInController {
             const token = await this.signInUseCase.execute(httpRequest.body)
             return login(token)
         } catch (error) {
-            return InternalServerError(new Error(error.message))
+            return internalServerError(new Error(error.message))
         }
 
     }
