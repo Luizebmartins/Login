@@ -1,5 +1,5 @@
 import { HttpRequest, HttpResponse} from '../utils/protocols/http'
-import { badRequest, unauthorized, forbidden } from '../utils/helpers/http-helper'
+import { badRequest, unauthorized, forbidden, updated } from '../utils/helpers/http-helper'
 import { MissingBodyError } from '../utils/errors/missing-body-error'
 import { MissingParamError } from '../utils/errors/missing-param-error'
 import { MissingTokenError } from '../utils/errors/missing-token-error'
@@ -28,12 +28,7 @@ export class UserController {
 
             const update = this.userUseCase.update(request.body)
             if(update.success) {
-                return {
-                    statusCode: 200,
-                    body: {
-                        success: true
-                    }
-                }
+                return updated()
             }
 
         } catch (error) {

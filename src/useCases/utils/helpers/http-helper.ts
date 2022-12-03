@@ -35,6 +35,16 @@ export const Created = (object: any): HttpResponse => {
     }
 }
 
+export const updated = (): HttpResponse => {
+    return {
+        statusCode: 200,
+        body: {
+            success: true
+        }
+    }
+}
+
+
 export const login = (token: string): HttpResponse => {
     return {
         statusCode: 200,
